@@ -29,13 +29,15 @@ serde_json = "1.0.39"
 tiny-keccak = { version = "2.0.1", features = ["keccak"] }
 pin-project = "1.0"
 # Optional deps
-secp256k1 = { version = "0.28", features = ["recovery"], optional = true }
+secp256k1 = { version = "0.29.0", features = ["recovery"], optional = true }
 once_cell = { version = "1.8.0", optional = true }
 
 ## HTTP
 base64 = { version = "0.22", optional = true }
 bytes = { version = "1.0", optional = true }
-reqwest = { version = "0.11", optional = true, default-features = false, features = ["json"] }
+reqwest = { version = "0.12.7", optional = true, default-features = false, features = [
+    "json",
+] }
 headers = { version = "0.4", optional = true }
 ## WS
 # async-native-tls = { git = "https://github.com/async-email/async-native-tls.git", rev = "b5b5562d6cea77f913d4cbe448058c031833bf17", optional = true, default-features = false }
@@ -67,13 +69,21 @@ hex-literal = "0.4"
 wasm-bindgen-test = "0.3.19"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dev-dependencies]
-hyper = { version = "0.14", default-features = false, features = ["server"] }
+hyper = { version = "1.4.1", default-features = false, features = ["server"] }
 tokio = { version = "1.0", features = ["full"] }
 tokio-stream = { version = "0.1", features = ["net"] }
 
 [features]
 default = ["http-tls", "signing", "ws-tls-tokio", "ipc-tokio"]
-wasm = ["futures-timer/wasm-bindgen", "getrandom", "js-sys", "rand", "serde-wasm-bindgen", "wasm-bindgen", "wasm-bindgen-futures"]
+wasm = [
+    "futures-timer/wasm-bindgen",
+    "getrandom",
+    "js-sys",
+    "rand",
+    "serde-wasm-bindgen",
+    "wasm-bindgen",
+    "wasm-bindgen-futures",
+]
 eip-1193 = ["wasm"]
 _http_base = ["reqwest", "bytes", "url", "base64"]
 http = ["_http_base"]
@@ -83,11 +93,27 @@ http-rustls-tls = ["http", "reqwest/rustls-tls"]
 signing = ["secp256k1", "once_cell"]
 ws-tokio = ["soketto", "url", "tokio", "tokio-util", "headers"]
 ws-async-std = ["soketto", "url", "async-std", "headers"]
-ws-tls-tokio = ["async-native-tls", "async-native-tls/runtime-tokio", "ws-tokio"]
-ws-rustls-tokio = ["tokio-rustls", "webpki-roots", "rustls-pki-types", "ws-tokio"]
-ws-tls-async-std = ["async-native-tls", "async-native-tls/runtime-async-std", "ws-async-std"]
+ws-tls-tokio = [
+    "async-native-tls",
+    "async-native-tls/runtime-tokio",
+    "ws-tokio",
+]
+ws-rustls-tokio = [
+    "tokio-rustls",
+    "webpki-roots",
+    "rustls-pki-types",
+    "ws-tokio",
+]
+ws-tls-async-std = [
+    "async-native-tls",
+    "async-native-tls/runtime-async-std",
+    "ws-async-std",
+]
 ipc-tokio = ["tokio", "tokio-stream", "tokio-util"]
-arbitrary_precision = ["serde_json/arbitrary_precision", "jsonrpc-core/arbitrary_precision"]
+arbitrary_precision = [
+    "serde_json/arbitrary_precision",
+    "jsonrpc-core/arbitrary_precision",
+]
 test = []
 allow-missing-fields = []
 
